@@ -5,6 +5,7 @@ use crossterm::terminal::enable_raw_mode;
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
+    // raw mode: https://docs.rs/crossterm/0.3.0/crossterm/raw/index.html
     enable_raw_mode()?;
     let events = Events::new();
     loop {
