@@ -44,7 +44,7 @@ pub enum Key {
     Null,
     /// Escape key.
     Esc,
-    Unknown,
+    // Unknown,
 }
 
 impl fmt::Display for Key {
@@ -140,7 +140,6 @@ impl Key {
                 code: crossterm_events::KeyCode::Char(c),
                 ..
             } => Key::Char(c),
-            _ => Key::Unknown,
         }
     }
 }
