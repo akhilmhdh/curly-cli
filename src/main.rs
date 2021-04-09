@@ -1,19 +1,21 @@
-mod event;
+mod input;
+
+use crate::input::{Events, Key};
 use crossterm::terminal::enable_raw_mode;
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
     enable_raw_mode()?;
-    let events = event::Events::new();
+    let events = Events::new();
     loop {
         match events.next()? {
-            event::Key::Enter => {
-                print!("Its Enter");
+            Key::Enter => {
+                println!("Its Enter");
             }
-            event::Key::Tab => {
+            Key::Tab => {
                 break;
             }
-            _ => print!("Something else"),
+            _ => println!("Something else"),
         }
     }
 
