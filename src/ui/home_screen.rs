@@ -1,33 +1,36 @@
-use std::io;
-use tui::backend::CrosstermBackend;
-use tui::layout::{Constraint, Direction, Layout};
-use tui::widgets::{Block, Borders};
-use tui::Terminal;
+use ::tui::{
+    backend::Backend,
+    layout::{Constraint, Direction, Layout, Rect},
+    widgets::{Block, Borders},
+    Frame,
+};
+use std::error::Error;
 
-fn main() -> Result<(), io::Error> {
-    let stdout = io::stdout();
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-    terminal.clear()?;
-    terminal.draw(|f| {
-        let chunks = Layout::default()
-            .direction(Direction::Vertical)
-            .margin(1)
-            .constraints(
-                [
-                    Constraint::Percentage(20),
-                    Constraint::Percentage(60),
-                    Constraint::Percentage(20),
-                ]
-                .as_ref(),
-            )
-            .split(f.size());
-        let block = Block::default().title("Block").borders(Borders::ALL);
-        f.render_widget(block, chunks[0]);
-        let block = Block::default().title("Block 2").borders(Borders::ALL);
-        f.render_widget(block, chunks[1]);
-        let block = Block::default().title("Block 3").borders(Borders::ALL);
-        f.render_widget(block, chunks[2]);
-    })?;
+/**
+ * Home Screen
+ * Three sections.
+ * 1. Req Type --- 2. URL Bar ---
+ * 3. -----------Body------------
+ */
+pub fn draw<B: Backend>(f: &mut Frame<B>, size: Rect) -> Result<(), Box<dyn Error>> {
+    let main_layout = Layout::default()
+        .direction(Direction::Vertical)
+        .horizontal_margin(1)
+        .constraints([Constraint::Length(3), Constraint::Percentage(80)].as_ref())
+        .split(size);
+
+    let block = Block::default().title("Body").borders(Borders::ALL);
+    f.render_widget(block, main_layout[1]);
+
+    let top_layout = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Percentage(30), Constraint::Percentage(70)].as_ref())
+        .split(main_layout[0]);
+
+    let block = Block::default().title("Type").borders(Borders::ALL);
+    f.render_widget(block, top_layout[0]);
+
+    let block = Block::default().title("URL").borders(Borders::ALL);
+    f.render_widget(block, top_layout[1]);
     Ok(())
 }
