@@ -40,6 +40,10 @@ pub enum Key {
     ///
     /// `KeyEvent::Char('c')` represents `c` character, etc.
     Char(char),
+    /// `KeyEvent::Ctrl('c')` represents `CTRL + c` character, etc.
+    Ctrl(char),
+     /// `KeyEvent::Shift('c')` represents `Shift + c` character, etc.
+     Shift(char),
     /// Null.
     Null,
     /// Escape key.
@@ -136,6 +140,14 @@ impl Key {
                 code: crossterm_events::KeyCode::Esc,
                 ..
             } => Key::Esc,
+            crossterm_events::KeyEvent {
+                code: crossterm_events::KeyCode::Char(c),
+                modifiers: crossterm_events::KeyModifiers::CONTROL
+            } => Key::Ctrl(c),
+            crossterm_events::KeyEvent {
+                code: crossterm_events::KeyCode::Char(c),
+                modifiers: crossterm_events::KeyModifiers::SHIFT
+            } => Key::Shift(c),
             crossterm_events::KeyEvent {
                 code: crossterm_events::KeyCode::Char(c),
                 ..

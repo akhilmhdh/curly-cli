@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             app.render(f, size);
         })?;
         match events.next()? {
-            Key::Esc => {
+            Key::Ctrl('c') => {
                 break;
             }
             _ => println!("Key pressed"),
