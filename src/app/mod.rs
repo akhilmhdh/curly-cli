@@ -1,4 +1,4 @@
-mod main;
+mod app;
 mod navigation;
 
-pub use self::{main::App, navigation::Navigation, navigation::RouteID};
+pub use self::{app::App, navigation::Navigation, navigation::RouteID};

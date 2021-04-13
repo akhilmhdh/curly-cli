@@ -2,9 +2,9 @@ mod app;
 mod input;
 mod ui;
 
+use crate::app::App;
 use crate::input::{Events, Key};
 
-use app::App;
 use crossterm::terminal::enable_raw_mode;
 use std::{error::Error, io};
 use tui::{backend::CrosstermBackend, Terminal};
